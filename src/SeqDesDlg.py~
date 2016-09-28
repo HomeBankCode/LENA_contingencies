@@ -1,0 +1,145 @@
+"""
+The MIT License (MIT)
+Copyright (c) 2016 Joshua Wade, Paul Yoder, Amy Harbison, & Anne Warlaumont
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
+from Tkinter import *
+import tkFileDialog
+from copy import deepcopy
+
+class SeqDesDlg( Frame ):
+	def __init__(self,master=None,_varMap={}):
+		Frame.__init__(self,master)
+		self.mstr = master
+		self.createWidgets()
+		self.pack()
+		self.varMap=_varMap
+
+	def createWidgets(self):
+		# Header label
+		self.Header = Label(self)
+		self.Header["text"]='What type of analysis do you wish to perform?'
+		self.Header.pack(side='top')
+		# Antecedent-->Consequent label
+		self.AntCon = Label(self)
+		self.AntCon["text"]='Antecedent\t-->\tConsequent'
+		self.AntCon.pack(side='top')
+		# Button  A-->B
+		self.A_B = Button(self)
+		self.A_B["text"]='A\t-->\tB'
+		self.A_B["command"]=self.setA_B
+		self.A_B.pack(side='top')
+		# Button (A-->B)-->C
+		self.AB_C = Button(self)
+		self.AB_C["text"]='(A-->B)\t-->\tC'
+		self.AB_C["command"]=self.setAB_C
+		self.AB_C.pack(side='top')
+
+	def setA_B(self):
+		self.varMap["seqType"]='A_B'
+		self.master.destroy()
+
+	def setAB_C(self):
+		self.varMap["seqType"]='AB_C'
+		self.master.destroy()
+
+
+class AntConDesDlg( Frame ):
+
+	def __init__(self,master=None,_varMap={}):
+		Frame.__init__(self,master)
+		self.mstr = master
+		self.spkrs = Speakers()
+		self.varMap=_varMap
+		self.seqType=self.varMap["seqType"]
+		self.createWidgets()
+		self.pack()
+
+	def createWidgets(self):
+		# Header label
+		self.hText = 'A\t-->\tB' if self.seqType=='A_B' else '(A-->B)\t-->\tC'
+		self.Header = Label(self)
+		self.Header["text"]=self.hText
+		self.Header.pack(side=TOP)
+
+		# Assembled analysis label
+		self.AssemLab = Label(self)
+		self.AssemLab["text"]=self.hText
+		self.AssemLab.pack(side=TOP)
+
+		# OptionMenu items
+		self.selItemA=StringVar(self.mstr)
+		self.opMenuA = OptionMenu(self.mstr,self.selItemA,*self.spkrs.codes,\
+			command=self.StoreA)
+		self.opMenuA.pack(side=LEFT)
+		self.selItemB=StringVar(self.mstr)
+		self.opMenuB = OptionMenu(self.mstr,self.selItemB,*self.spkrs.codes,\
+			command=self.StoreB)
+		self.opMenuB.pack(side=LEFT)
+		if self.seqType=='AB_C':
+			self.selItemC=StringVar(self.mstr)
+			self.opMenuC = OptionMenu(self.mstr,self.selItemC,*self.spkrs.codes,\
+				command=self.StoreC)
+			self.opMenuC.pack(side=LEFT)
+		
+		self.ResetDesign()
+
+		# Submit button
+		self.Submit = Button(self)
+		self.Submit["text"]="Submit"
+		self.Submit["command"]=self.CloseWindow
+		self.Submit.pack(side=LEFT)
+
+		# Reset button
+		self.ResetDes = Button(self)
+		self.ResetDes["text"]="Reset"
+		self.ResetDes["command"]=self.ResetDesign
+		self.ResetDes.pack(side=LEFT)
+
+	def CloseWindow(self):
+		self.master.destroy()
+
+	def ResetDesign(self):
+		self.varMap["A"] = ''
+		self.varMap["B"] = ''
+		self.varMap["C"] = ''
+		self.AssemLab["text"] = self.hText
+		self.RedrawAssemLab()
+
+	def StoreSelectedEvent(self,value,evType):
+		if value not in self.varMap[evType]:
+			if self.varMap[evType] is '':
+				self.varMap[evType] += value
+			else:
+				self.varMap[evType] += ','+value
+			self.RedrawAssemLab()
+
+	def StoreA(self,value):
+		self.StoreSelectedEvent(value, "A")
+
+	def StoreB(self,value):
+		self.StoreSelectedEvent(value, "B")
+
+	def StoreC(self,value):
+		self.StoreSelectedEvent(value, "C")
+
+	def RedrawAssemLab(self):
+		newLab=self.hText
+		if self.seqType=='A_B':
+			newLab=self.varMap["A"]+'\t-->\t'+self.varMap["B"]
+		elif self.seqType=='AB_C':
+			newLab='('+self.varMap["A"]+'-->'+self.varMap["B"]+')\t-->\t'+self.varMap["C"]
+		self.AssemLab["text"]=newLab
+
+		
+class Speakers:
+	def __init__(self):
+		self.codes = ['MAN','MAF','FAN','FAF','CHNSP','CHNNSP', \
+			'CHF','CXN','CXF','NON','NOF','OLN','OLF','TVN', \
+			'TVF','SIL']
