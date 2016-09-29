@@ -27,4 +27,4 @@ class Batch:
 		for i in range(1, len(rows)): # Skip header row
 			row = rows[i].split(',')
 			if len(row) > 1: # Skipt empty rows
-				self.items[row[0]] = [fname for fname in row if isfile(fname.replace("\ "," ").replace("\\","/"))]
+				self.items[row[0]] = [fname for fname in row if isfile(fname.replace("\ "," "))]
