@@ -1,6 +1,6 @@
 """
 The MIT License (MIT)
-Copyright (c) 2016 Joshua Wade, Paul Yoder, Amy Harbison, & Anne Warlaumont
+Copyright (c) 2016 Paul Yoder, Joshua Wade, Jon Tapp, Anne Warlaumont, and Amy Harbison
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -58,13 +58,13 @@ def main():
 			# enact transition to the next state
 			scFSM.Transition( scFSM.GET_BATCH_CFG )
 
-		# PROMPT USER FOR BATCH CONFIG FILE
+		# PROMPT USER FOR BATCH CONFIG FILES
 		elif scFSM.state_curr is scFSM.GET_BATCH_CFG:
 			# Launch LoadBatchDlg
-			Launch('LoadBatchDlg', 'Load Batch Config File', varMap)
+			Launch('LoadBatchDlg', 'Load Batch Config Files', varMap)
 
 			# Initialize Batch object
-			batch = Batch(varMap["cfgFile"])
+			batch = Batch(varMap["batDir"])
 			
 			# enact transition to the next state
 			scFSM.Transition( scFSM.DESIGN_SEQ )

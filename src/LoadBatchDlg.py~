@@ -1,6 +1,6 @@
 """
 The MIT License (MIT)
-Copyright (c) 2016 Joshua Wade, Paul Yoder, Amy Harbison, & Anne Warlaumont
+Copyright (c) 2016 Paul Yoder, Joshua Wade, Jon Tapp, Anne Warlaumont, and Amy Harbison
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -24,12 +24,12 @@ class LoadBatchDlg( Frame ):
 	def createWidgets(self):
 		self.Load = Button(self)
 		self.Load["command"] = self.PromptFile
-		self.Load["text"] = 'Please select the batch configuration file (*.csv).'
+		self.Load["text"] = 'Please specify the batch directory.'
 		self.Load.pack()
 
 	def PromptFile(self):
 		print 'Requesting input directory...'
-		self.cfgFile = tkFileDialog.askopenfilename()
+		self.cfgFile = tkFileDialog.askdirectory()
 		if self.cfgFile is not '':
 			print 'Loading batch config file ' + str(self.cfgFile)
 			self.varMap["cfgFile"] = self.cfgFile

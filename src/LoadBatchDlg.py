@@ -18,19 +18,19 @@ class LoadBatchDlg( Frame ):
 		self.mstr = master
 		self.createWidgets()
 		self.pack()
-		self.cfgFile = ''
+		self.batDir = ''
 		self.varMap=_varMap
 
 	def createWidgets(self):
 		self.Load = Button(self)
 		self.Load["command"] = self.PromptFile
-		self.Load["text"] = 'Please select the batch configuration file (*.csv).'
+		self.Load["text"] = 'Please specify the batch directory.'
 		self.Load.pack()
 
 	def PromptFile(self):
 		print 'Requesting input directory...'
-		self.cfgFile = tkFileDialog.askopenfilename()
-		if self.cfgFile is not '':
-			print 'Loading batch config file ' + str(self.cfgFile)
-			self.varMap["cfgFile"] = self.cfgFile
+		self.batDir = tkFileDialog.askdirectory()
+		if self.batDir is not '':
+			print 'Loading batch files from ' + str(self.batDir)
+			self.varMap["batDir"] = self.batDir
 		self.master.destroy()

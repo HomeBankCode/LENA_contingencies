@@ -58,13 +58,13 @@ def main():
 			# enact transition to the next state
 			scFSM.Transition( scFSM.GET_BATCH_CFG )
 
-		# PROMPT USER FOR BATCH CONFIG FILE
+		# PROMPT USER FOR BATCH CONFIG FILES
 		elif scFSM.state_curr is scFSM.GET_BATCH_CFG:
 			# Launch LoadBatchDlg
-			Launch('LoadBatchDlg', 'Load Batch Config File', varMap)
+			Launch('LoadBatchDlg', 'Load Batch Directory Files', varMap)
 
 			# Initialize Batch object
-			batch = Batch(varMap["cfgFile"])
+			batch = Batch(varMap["batDir"])
 			
 			# enact transition to the next state
 			scFSM.Transition( scFSM.DESIGN_SEQ )
