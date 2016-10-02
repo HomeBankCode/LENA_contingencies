@@ -30,12 +30,13 @@ class EItem:
 
 # Event Item List
 class EItemList:
-	def __init__(self, _varMap={}, pid=0):
+	def __init__(self, _varMap={}, pid=0, its_filename=''):
 		self.list = []
 		self.list_ = []
 		self._varMap = _varMap
 		self.seqType = self._varMap["seqType"]
 		self.pid = pid
+		self.its_filename = its_filename
 		self.relevantSpkrs = self._varMap["A"]+','+self._varMap["B"]+','+self._varMap["C"]
 		self.pauseDur = float(self._varMap["PauseDur"])
 		self.eventCnt = {"A":0,"B":0,"C":0,"P":0}
@@ -129,7 +130,7 @@ class EItemList:
 
 	def Header(self):
 		# Subject ID
-		h = 'ID,'
+		h = 'ID,its_filename,'
 		
 		# Event Counts
 		for e in self.evTypes:
@@ -142,6 +143,7 @@ class EItemList:
 	def ResultsTuple(self):
 		# Subject ID
 		rt = self.pid + ','
+		rt += self.its_filename.split('/')[-1] + ','
 
 		# Event Counts
 		for e in self.evTypes:
@@ -187,7 +189,7 @@ class SeqAnalysis:
 			# INITIALIZE ESSENTIAL OBJECTS
 			if fsm.state_curr is fsm.INIT:
 				#Init event item list
-				eiList = EItemList(_varMap=self._varMap, pid=self.pID)
+				eiList = EItemList(_varMap=self._varMap, pid=self.pID, its_filename=path)
 
 				#Load xml tree
 				tree = ET.parse(path)

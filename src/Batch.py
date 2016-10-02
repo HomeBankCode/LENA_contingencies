@@ -32,4 +32,6 @@ class Batch:
 				subID = subInfoNode.attrib["id"]
 				
 				# Add a new subject ID and filename to the map
+				if subID not in self.items:
+					self.items[subID] = []
 				self.items[subID].append(fullpath)
