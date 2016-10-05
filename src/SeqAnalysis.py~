@@ -44,7 +44,7 @@ class EItemList:
 		self.contingencies = {"a":0, "b":0, "c":0, "d":0 }
 
 	def AddEItem(self, seg):
-		if seg.attrib["spkr"] is 'CHN':
+		if 'CHN' in seg.attrib["spkr"]:
 			seg.attrib["spkr"] = self.Modify_CHN_Events(seg)
 		if seg.attrib["spkr"] in self.relevantSpkrs:
 			#print 'adding EItem: ' + str(seg.attrib)
@@ -74,12 +74,12 @@ class EItemList:
 			P = self.pauseDur
 			if eT >= P:
 				# calculate number of pauses to insert
-				numP = int(eT / P) + int(eT % P)
+				numP = int(eT / P) # + (1 if eT % P > 0 else 0) # truncate pauses
 				for j in range(0,numP):
 					# insert pause
 					startTime = preEvT+(j*P)
 					endTime = min(curEvT,startTime+P)
-					pAttr = {"spkr":"P","startTime":str(startTime),"endTime":str(endTime)}
+					pAttr = {"spkr":"Pause","startTime":str(startTime),"endTime":str(endTime)}
 					self.list_.append( EItem(pAttr) )
 			#add current event
 			self.list_.append( deepcopy(self.list[i]) )
@@ -189,7 +189,7 @@ class SeqAnalysis:
 			# INITIALIZE ESSENTIAL OBJECTS
 			if fsm.state_curr is fsm.INIT:
 				#Init event item list
-				eiList = EItemList(_varMap=self._varMap, pid=self.pID)
+				eiList = EItemList(_varMap=self._varMap, pid=self.pID, its_filename=path)
 
 				#Load xml tree
 				tree = ET.parse(path)
@@ -242,7 +242,12 @@ class SeqAnalysis:
 			# WRITE ANALYSIS RESULTS TO OUTPUT CONTENT
 			elif fsm.state_curr is fsm.WRITE_RESULTS:
 				#write data and break from loop
-				self._varMap["outputContent"] += eiList.Header() + '\n' + eiList.ResultsTuple() + '\n'
+				elh = eiList.Header()
+				outputContent = ""
+				if self._varMap["outputContent"] is "":
+					outputContent = elh
+				outputContent += '\n' + eiListResultsTuple()
+				self._varMap["outputContent"] += outputContent
 				break
 
 	

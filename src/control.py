@@ -51,7 +51,7 @@ def main():
 		# INITIALIZE ESSENTIAL OBJECTS
 		if scFSM.state_curr is scFSM.INIT:
 			# init variable map keys
-			varMap["P"]="P"
+			varMap["P"]="Pause"
 			varMap["outputContent"]=""
 			varMap["outputDirPath"]=""		
 			
