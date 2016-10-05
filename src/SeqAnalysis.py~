@@ -42,7 +42,7 @@ class EItemList:
 		self.pauseDur = float(self._varMap["PauseDur"])
 		self.eventCnt = {"A":0,"B":0,"C":0,"P":0}
 		self.evTypes = ["A","B","C","P"]
-		self.contingencies = {"a":0, "b":0, "c":0, "d":0 }
+		self.contingencies = {"a":0, "b":0, "c":0, "d":0}
 
 	def AddEItem(self, seg, flag=None):
 		# Specify CHN events as either CHNSP or CHNNSP events

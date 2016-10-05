@@ -208,7 +208,7 @@ class SeqAnalysis:
 			# SCAN XML CONTENT AND COPY RELEVANT PORTIONS LOCALLY
 			elif fsm.state_curr is fsm.SCAN_COPY_XML:
 				#Get access to only the conversational segments in the .its file
-				recNode = tree.find("ProcessingUnit/Recording")
+				recNode = tree.find("ProcessingUnit")
 				segs = list(recNode.iter("Segment"))
 
 				# iterate over segments and copy
