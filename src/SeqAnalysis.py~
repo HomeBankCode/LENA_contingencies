@@ -24,6 +24,7 @@ class EItem:
 		self.offset = attr["endTime"]
 
 	def GetFloatTime(self,arg='onset'):
+		#print 'spkr='+self.spkr + ', onset='+self.onset + ', offset=' + self.offset
 		t = self.onset[2:-1] if arg=='onset' else self.offset[2:-1]
 		return float(t)
 
@@ -43,12 +44,20 @@ class EItemList:
 		self.evTypes = ["A","B","C","P"]
 		self.contingencies = {"a":0, "b":0, "c":0, "d":0 }
 
-	def AddEItem(self, seg):
+	def AddEItem(self, seg, flag=None):
+		# Specify CHN events as either CHNSP or CHNNSP events
 		if 'CHN' in seg.attrib["spkr"]:
 			seg.attrib["spkr"] = self.Modify_CHN_Events(seg)
-		if seg.attrib["spkr"] in self.relevantSpkrs:
-			#print 'adding EItem: ' + str(seg.attrib)
-			self.list.append( EItem(seg.attrib) )
+
+		if flag is 'Initial' or flag is 'Terminal':
+			if seg.attrib["spkr"] in self.relevantSpkrs:
+				self.list.append( EItem(seg.attrib) )
+			else:
+				seg.attrib["spkr"]="Pause"
+				self.list.append( EItem(seg.attrib) )
+		else:
+			if seg.attrib["spkr"] in self.relevantSpkrs:
+				self.list.append( EItem(seg.attrib) )
 
 	def Modify_CHN_Events(self, seg):
 		CHN_mod = ''
@@ -74,7 +83,7 @@ class EItemList:
 			P = self.pauseDur
 			if eT >= P:
 				# calculate number of pauses to insert
-				numP = int(eT / P) # + (1 if eT % P > 0 else 0) # truncate pauses
+				numP = int(eT / P) #+ (1 if eT % P > 0 else 0) # uncomment to include pause remainder
 				for j in range(0,numP):
 					# insert pause
 					startTime = preEvT+(j*P)
@@ -182,7 +191,6 @@ class SeqAnalysis:
 		# Define necessary objects
 		eiList = None
 		tree = None
-		root = None
 
 		# Begin Analysis loop
 		while(True):
@@ -193,7 +201,6 @@ class SeqAnalysis:
 
 				#Load xml tree
 				tree = ET.parse(path)
-				root = tree.getroot()
 
 				#enact transition to the next state
 				fsm.Transition( fsm.SCAN_COPY_XML )
@@ -205,12 +212,13 @@ class SeqAnalysis:
 				segs = list(recNode.iter("Segment"))
 
 				# iterate over segments and copy
-				for s in segs:
-					eiList.AddEItem( s )
+				eiList.AddEItem( segs[0], flag='Initial' )
+				for i in range(1, len(segs)-1):
+					eiList.AddEItem( segs[i] )
+				eiList.AddEItem( segs[-1], flag='Terminal' )
 
 				# free memory used by xml tree
 				tree = None
-				root = None
 				
 				#enact transition to the next state
 				fsm.Transition( fsm.INSERT_PAUSES )
@@ -246,7 +254,7 @@ class SeqAnalysis:
 				outputContent = ""
 				if self._varMap["outputContent"] is "":
 					outputContent = elh
-				outputContent += '\n' + eiListResultsTuple()
+				outputContent += '\n' + eiList.ResultsTuple()
 				self._varMap["outputContent"] += outputContent
 				break
 
