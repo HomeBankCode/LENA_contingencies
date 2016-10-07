@@ -16,6 +16,7 @@ class PauseDesDlg( Frame ):
 		Frame.__init__(self,master)
 		self.mstr = master
 		self.varMap=_varMap
+		self.toggVar = IntVar()
 		self.createWidgets()
 		self.pack()
 
@@ -25,10 +26,17 @@ class PauseDesDlg( Frame ):
 		self.Lab["text"]='Please specify the appropriate pause length (in seconds).'
 		self.Lab.pack()
 		
-
 		# Scale widget (slider)
 		self.Slide = Scale(self,from_=.1,to=30.,length=1000,orient=HORIZONTAL,resolution=.1)
 		self.Slide.pack()
+
+		# Toggle for enabling rounding
+		self.Togg = Checkbutton(self)
+		self.Togg["text"]='Enable Rounding'
+		self.Togg["variable"]=self.toggVar
+		self.Togg["onvalue"]=1
+		self.Togg["offvalue"]=0
+		self.Togg.pack()
 
 		# Submit button
 		self.Submit = Button(self)
@@ -38,4 +46,5 @@ class PauseDesDlg( Frame ):
 
 	def storePause(self):
 		self.varMap["PauseDur"]=str(self.Slide.get())
+		self.varMap["roundingEnabled"]=str(True if self.toggVar.get() is self.Togg["onvalue"] else False)
 		self.master.destroy()

@@ -52,6 +52,7 @@ def main():
 		if scFSM.state_curr is scFSM.INIT:
 			# init variable map keys
 			varMap["P"]="Pause"
+			varMap["roundingEnabled"]=""
 			varMap["outputContent"]=""
 			varMap["outputDirPath"]=""		
 			
@@ -143,8 +144,9 @@ def Launch(dlgName, title, varMap):
 def GetFileTitle(varMap):
 	t = 'batch_'
 	t += varMap["seqType"]
-	t += '_pause=' + varMap["PauseDur"]
-	t += 's_analysisDate=' + MMDDYYYY(delim='-')
+	t += '_pause_' + varMap["PauseDur"]
+	t += 's_round_' + varMap["roundingEnabled"]
+	t += '_analysisDate_' + MMDDYYYY(delim='-')
 	t += '.csv'
 	return t
 

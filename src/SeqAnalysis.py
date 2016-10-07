@@ -24,7 +24,6 @@ class EItem:
 		self.offset = attr["endTime"]
 
 	def GetFloatTime(self,arg='onset'):
-		#print 'spkr='+self.spkr + ', onset='+self.onset + ', offset=' + self.offset
 		t = self.onset[2:-1] if arg=='onset' else self.offset[2:-1]
 		return float(t)
 
@@ -38,26 +37,23 @@ class EItemList:
 		self.seqType = self._varMap["seqType"]
 		self.pid = pid
 		self.its_filename = its_filename
-		self.relevantSpkrs = self._varMap["A"]+','+self._varMap["B"]+','+self._varMap["C"]
+		self.relevantSpkrs = self._varMap["A"]+','+self._varMap["B"]+','+self._varMap["C"]+',Pause'
 		self.pauseDur = float(self._varMap["PauseDur"])
 		self.eventCnt = {"A":0,"B":0,"C":0,"P":0}
 		self.evTypes = ["A","B","C","P"]
 		self.contingencies = {"a":0, "b":0, "c":0, "d":0}
+		self.round = True if "True" in self._varMap["roundingEnabled"] else False
 
 	def AddEItem(self, seg, flag=None):
 		# Specify CHN events as either CHNSP or CHNNSP events
 		if 'CHN' in seg.attrib["spkr"]:
 			seg.attrib["spkr"] = self.Modify_CHN_Events(seg)
 
-		if flag is 'Initial' or flag is 'Terminal':
-			if seg.attrib["spkr"] in self.relevantSpkrs:
-				self.list.append( EItem(seg.attrib) )
-			else:
-				seg.attrib["spkr"]="Pause"
-				self.list.append( EItem(seg.attrib) )
-		else:
-			if seg.attrib["spkr"] in self.relevantSpkrs:
-				self.list.append( EItem(seg.attrib) )
+		# Handle first and last events in .its file if they aren't relevant speakers
+		if (flag is 'Initial' or flag is 'Terminal') and seg.attrib["spkr"] not in self.relevantSpkrs:
+			seg.attrib["spkr"]="Pause"
+		if seg.attrib["spkr"] in self.relevantSpkrs:
+			self.list.append( EItem(seg.attrib) )
 
 	def Modify_CHN_Events(self, seg):
 		CHN_mod = ''
@@ -83,7 +79,11 @@ class EItemList:
 			P = self.pauseDur
 			if eT >= P:
 				# calculate number of pauses to insert
-				numP = int(eT / P) #+ (1 if eT % P > 0 else 0) # uncomment to include pause remainder
+				numP = 0
+				if self.round is True:
+					numP = int( (eT / P) + .5 )
+				else:
+					numP = int( (eT / float(P)) )
 				for j in range(0,numP):
 					# insert pause
 					startTime = preEvT+(j*P)
@@ -143,7 +143,7 @@ class EItemList:
 		
 		# Event Counts
 		for e in self.evTypes:
-			h += '[' + self._varMap[e].replace(",","+") + '],'
+			h += self._varMap[e].replace(",","+") + ','
 
 		# Contingencies
 		h += 'a,b,c,d'
