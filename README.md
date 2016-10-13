@@ -11,7 +11,7 @@ GUI for computing contingency tables from .its files.
 
 > In the temporary absence of an executable form of the program for Mac and Windows, Python (v2.7) must be installed. The entry point of the program is in the file control.py. To run the program, enter the following command line instruction:
 
-<code>>>> python /.../path/to/direcotry/control.py</code>
+<code>>>> python /.../path/to/directory/control.py</code>
 > Once the program launces, you can begin specifying the details of the anlaysis to be conducted. The video below gives a walkthrough on using the interface:
 
 [![Video Demo](http://research.vuse.vanderbilt.edu/rasl/wp-content/uploads/2016/09/LENA_contingencies%20Video%20Demo%20Img.jpg)](https://youtu.be/1AWRctjNr5g)
