@@ -1,3 +1,4 @@
+
 """
 The MIT License (MIT)
 Copyright (c) 2016 Paul Yoder, Joshua Wade, Jon Tapp, Anne Warlaumont, and Amy Harbison
@@ -139,7 +140,7 @@ class EItemList:
 
 	def Header(self):
 		# Subject ID
-		h = 'ID,its_filename,'
+		h = 'PID,its_filename,'
 		
 		# Event Counts
 		for e in self.evTypes:
