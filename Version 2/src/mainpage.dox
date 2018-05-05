@@ -1,0 +1,48 @@
+/*! \mainpage Welcome to Lena Contingencies Version 3
+ *
+ * \section for_users For Users:
+ *
+ * \subsection to_run How to Run
+ * 1. Download Lena Contingencies from GitHub!
+ *      The application is located in
+ *        ./builds/v3
+ *
+ * 2. Run program from executable located in that folder.
+ * 3. Setup input directory(for batch of .its or .csv files)
+ * 4. Setup output directory
+ * 5. Configure Analysis
+ * 6. Press Submit!
+ *
+ * \section for_devs For Developers:
+ *
+ * \subsection to_build How to Build the Program:
+ *
+ * Windows:
+ *    See: windows_cmds.txt
+ *    in the root directory for full instructions on setting up pyinstaller and using the provided spec file to update the build for future developments.
+ *
+ * MacOS & Unix:
+ *    To build the MacOS and Unix versions of the application for future releases, please install
+ *    pyinstaller. Once installed, execute the python script located in
+ *        ./buildScript/build_MacUnix.py
+ *    with
+ *        python build_MacUnix.py
+ *    This will bundle the app and place the executables in ./builds/v3
+ *
+ * \section doc_man Documentation and Manual
+ *
+ * \subsection doxy Doxygen
+ *    Welcome to it! Use the navigation bar above to explore the documentation for Lena Contingencies.
+ *
+ * \subsection man Manual
+ *    A manual is available to users with step-by-step instructions and screenshots for using the program. To view, navigate to:
+ *    ./manual/manual.docx
+ *
+ * \section lic License
+ *    This project is licensed under the MIT License.
+ *
+ * \section ack Acknowledgements
+ *     - Program forked from https://github.com/kengbailey/LENA_Contingencies2
+ *        and originally from https://github.com/HomeBankCode/LENA_contingencies
+ *     - Project completed Spring Semester 2018 @ MTSU CSCI Software Engineering
+ */
