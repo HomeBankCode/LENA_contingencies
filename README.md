@@ -28,3 +28,6 @@ GUI for computing contingency tables from .its files.
 
 <code>>>> python /.../path/to/directory/control.py</code>
 > Once the program launces, you can begin specifying the details of the anlaysis to be conducted.
+
+## Report a Bug / Request Support
+> Send bug reports or requests for support to josh@innovateatc.com
