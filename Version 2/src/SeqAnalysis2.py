@@ -25,7 +25,6 @@ import xml.etree.ElementTree as ET
 from copy import deepcopy
 import os
 import csv
-import pandas as pd
 import threading
 import Queue
 from Helpers import *
@@ -433,10 +432,15 @@ class SeqAnalysis:
 				
 				if os.path.splitext(path)[1] == '.csv':
 					print '+++ Processing .csv file ...'
-					df = pd.read_csv(path)
-					csv_data = df.values.tolist()
+					f = open(path,'r')
+					rows = f.read().replace('\r','').split('\n')
+					f.close()
 					
-					csv_arr = [csv_data[0][0], csv_data[0][1]]
+					csv_data = []
+					for i in range(1, len(rows)-1):
+						csv_data.append( rows[i].split(',') )
+
+					csv_arr = [csv_data[0][0], csv_data[0][1]] 
 					print '+++ Created data: ' + str(csv_arr) + ' ...'
 
 					eiList.AddEItemCSV(csv_arr, flag='Initial')
