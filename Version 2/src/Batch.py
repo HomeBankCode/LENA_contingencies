@@ -59,7 +59,11 @@ class Batch:
 				# Add a new subject ID and filename to the map
 				if subID not in self.items:
 					self.items[subID] = []
-				self.items[subID].append(fullpath)
+					self.items[subID].append(fullpath)
+				else:
+					uniqueID = self.EnsureUnique(subID)
+					self.items[uniqueID] = []
+					self.items[uniqueID].append(fullpath)
 
 			if ".csv" in f:
 				csv_path = join(batDir, f)
@@ -67,5 +71,23 @@ class Batch:
 
 				if csvID not in self.items:
 					self.items[csvID] = []
-				self.items[csvID].append(csv_path)
+					self.items[csvID].append(csv_path)
+				else:
+					uniqueID = self.EnsureUnique(csvID)
+					self.items[uniqueID] = []
+					self.items[uniqueID].append(csv_path)
+
+	def EnsureUnique(self,ID):
+		"""
+		Modifies the specified ID using a monotonically increasing scheme.
+		"""
+		newID = ''
+		if '_' in ID:
+			compsID = ID.split('_')
+			newIDNum = int( compsID[1] ) + 1
+			newID = comps[0] + '_' + str(newIDNum)
+		else:
+			newID = ID + '_1'
+
+		return newID
 				 
