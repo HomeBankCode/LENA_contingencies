@@ -1,6 +1,6 @@
 """
 The MIT License (MIT)
-Copyright (c) 2018 Paul Yoder
+Copyright (c) 2018 Paul Yoder et al.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation
@@ -41,18 +41,15 @@ ABC = 'AB_C'
 ABC2 = 'A_BC'
 OK = 'ok'
 MAXTHREADS = 4
-codes = ('MAN','MAF','FAN','FAF','CHNSP','CHNNSP', \
+codes = ['MAN','MAF','FAN','FAF','CHNSP','CHNNSP', \
 			'CHF','CXN','CXF','NON','NOF','OLN','OLF','TVN', \
-			'TVF','SIL', \
-			'AV', 'CV')
+			'TVF','SIL']
 code_use = {'MAN':False,'MAF':False,'FAN':False,'FAF':False,'CHNSP':False,'CHNNSP':False, \
 			'CHF':False,'CXN':False,'CXF':False,'NON':False,'NOF':False,'OLN':False,'OLF':False,'TVN':False, \
-			'TVF':False,'SIL':False, \
-			'AV':False, 'CV':False}
+			'TVF':False,'SIL':False}
 codes_index = {'MAN':0,'MAF':1,'FAN':2,'FAF':3,'CHNSP':4,'CHNNSP':5, \
 			'CHF':6,'CXN':7,'CXF':8,'NON':9,'NOF':10,'OLN':11,'OLF':12,'TVN':13, \
-			'TVF':14,'SIL':15, \
-			'AV':16, 'CV':17}
+			'TVF':14,'SIL':15}
 
 class LenaUI:
     """This class is the UI and associated actions"""
@@ -285,8 +282,11 @@ class LenaUI:
                 with open(self.file_dict[filename]) as csvFile:
                     reader = csv.DictReader(csvFile)
                     for row in reader:
-                        if row['ID'] in codes:
-                            labels.add(row['ID'])
+                        if row['ID'] not in codes:
+                            codes.append(row['ID'])
+                            code_use[row['ID']] = False
+                            codes_index[row['ID']] = len(codes)-1
+                        labels.add(row['ID'])
                 csvFile.close()
 
             else: continue
