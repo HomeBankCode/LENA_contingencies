@@ -218,14 +218,14 @@ class EItemList:
 				if self.list[i].spkr in self._varMap[e]:
 					self.eventCnt[e] += 1
 
-	def PrintList(self):
+	"""def PrintList(self):
 		contentToWrite = []
 		for i in range(0, self.Size()):
 			contentToWrite.append( str(self.list[i].onset)+","+str(self.list[i].spkr) )
 
-		f = open('/home/jwade/Documents/Yoder Collab/V4/seq.csv', 'w') #TODO remove before committing
+		f = open('/your/path/here/seq.csv', 'w') #For debugging
 		f.write('\n'.join(contentToWrite))
-		f.close()
+		f.close()"""
 
 	def SeqAn(self):
 		"""
@@ -479,8 +479,6 @@ class SeqAnalysis:
 				#Remove contiguous pauses
 				if not(eiList.keepAllPauses):
 					eiList.RemoveExtraneousPauses()
-
-				#print eiList.PrintList() #TODO: remove before committing
 
 				#Tally each item in the EItemList
 				print '+++ Counting items in EItemList ...'
