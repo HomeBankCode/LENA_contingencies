@@ -75,6 +75,7 @@ class LenaUI:
         self.minutes_of_pause_to_keep.set(0.0)
         self.rounding_enabled = BooleanVar()
         self.keep_pauses = BooleanVar()
+	self.keep_pauses.set(True)
         self.sequence_type = StringVar()
         self.var_a = []
         self.var_b = []
@@ -808,9 +809,10 @@ class LenaUI:
             # keep all pauses enabled
             if new_config['keepAllPauses'] == 'True':
                 self.keep_pauses.set(True)
-                self.minutes_of_pause_to_keep.set(1)
+                self.minutes_of_pause_to_keep.set(360)
             else:
                 self.keep_pauses.set(False)
+                #self.minutes_of_pause_to_keep.set(0)
 
         except Exception as e:
             print(repr(e))
