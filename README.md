@@ -1,6 +1,8 @@
 # LENA_contingencies
 GUI for computing contingency tables from .its files.
 
+Note: This program deals solely with the onset of events. Although .its files contain information concerning the offset of events, offsets are not considered in the analyses performed by this program.
+
 ## HOW TO RUN THIS SOFTWARE
 
 ### VERSION 1
