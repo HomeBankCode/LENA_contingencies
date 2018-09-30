@@ -353,11 +353,14 @@ class LenaUI:
         self.mid_pause_checkbox = ttk.Checkbutton(self.mid_frame, text="Enable rounding", variable=self.rounding_enabled,onvalue=True, offvalue=False)
         self.mid_keep_pause_checkbox = ttk.Checkbutton(self.mid_frame, text="Keep All Pauses", variable=self.keep_pauses,onvalue=True, offvalue=False)
 
+	"""
+	# COMMENTING OUT PAUSES-TO-KEEP FUNCTIONALITY AT THE REQUEST OF DR. YODER
         mid_pause_to_keep_label = ttk.Label(self.mid_frame, text="Pauses To Keep (minutes)")
         self.mid_pause_to_keep_slider = ttk.Scale(self.mid_frame, orient=HORIZONTAL, length=100, from_=1, to=360, variable=self.minutes_of_pause_to_keep,command=lambda r: self.change_pause_to_keep_duration_slider(self))
         mid_pause_to_keep_dn_btn = ttk.Button(self.mid_frame, text="<", command=lambda: self.change_pause_to_keep_duration_down(self), width=1)
         mid_pause_to_keep_up_btn = ttk.Button(self.mid_frame, text=">", command=lambda: self.change_pause_to_keep_duration_up(self), width=1)
         self.mid_pause_to_keep_entry = ttk.Entry(self.mid_frame, textvariable=self.minutes_of_pause_to_keep, width=4)
+	"""
 
         # setup mid frame widgets
         mid_type_label.grid(row=0, column=0, columnspan=4)
@@ -379,6 +382,7 @@ class LenaUI:
         mid_pause_up_btn.grid(row=8, column=3, sticky=W)
         self.mid_pause_checkbox.grid(row=9, column=0, pady=4, columnspan=4)
 
+	"""
         ## Pauses to Keep feature
         mid_pause_to_keep_label.grid(row=10, column=0, columnspan=4, pady=5)
         self.mid_pause_to_keep_entry.grid(row=11,column=0)
@@ -386,7 +390,7 @@ class LenaUI:
         mid_pause_to_keep_dn_btn.grid(row=11, column=2, sticky=E)
         mid_pause_to_keep_up_btn.grid(row=11, column=3, sticky=W)
         self.mid_keep_pause_checkbox.grid(row=12,column=0, pady=4, columnspan=4)
-
+	"""
         
 
         #self.mid_abc_a_box.update()

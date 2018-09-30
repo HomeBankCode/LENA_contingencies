@@ -64,7 +64,8 @@ class Batch:
 					uniqueID = self.EnsureUnique(subID)
 					self.items[uniqueID] = []
 					self.items[uniqueID].append(fullpath)
-
+			"""
+			# we are currently ignoring .csv files as input at the request of Dr. Yoder
 			if ".csv" in f:
 				csv_path = join(batDir, f)
 				csvID = splitext(f.split('_')[-1])[0] # getting csvID by splitting on '_' and removing extension (last term is child id)
@@ -76,6 +77,7 @@ class Batch:
 					uniqueID = self.EnsureUnique(csvID)
 					self.items[uniqueID] = []
 					self.items[uniqueID].append(csv_path)
+			"""
 
 	def EnsureUnique(self,ID):
 		"""
