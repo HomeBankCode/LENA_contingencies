@@ -85,13 +85,8 @@ class Batch:
 		Modifies the specified ID using a monotonically increasing scheme.
 		"""
 		newID = ''
-		if '_' in ID:
-			compsID = ID.split('_')
-			newIDNum = int( compsID[1] ) + 1
-			newID = comps[0] + '_' + str(newIDNum)
-		else:
-			self.increment += 1
-			newID = ID + '_' + str(self.increment)
+		self.increment += 1
+		newID = ID + '_' + str(self.increment)
 
 		return newID
 				 
