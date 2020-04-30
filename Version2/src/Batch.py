@@ -32,6 +32,7 @@ class Batch:
 		"""
 		self.items = {} # key:username, value:filename
 		self.LoadData(batDir)
+		self.increment = 0
 
 	def LoadData(self,batDir):
 		"""
@@ -89,7 +90,7 @@ class Batch:
 			newIDNum = int( compsID[1] ) + 1
 			newID = comps[0] + '_' + str(newIDNum)
 		else:
-			newID = ID + '_1'
+			newID = ID + '_' + str(increment++)
 
 		return newID
 				 
