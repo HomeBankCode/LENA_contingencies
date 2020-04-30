@@ -90,7 +90,8 @@ class Batch:
 			newIDNum = int( compsID[1] ) + 1
 			newID = comps[0] + '_' + str(newIDNum)
 		else:
-			newID = ID + '_' + str(self.increment++)
+			self.increment += 1
+			newID = ID + '_' + str(self.increment)
 
 		return newID
 				 
