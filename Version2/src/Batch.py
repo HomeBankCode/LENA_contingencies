@@ -31,8 +31,8 @@ class Batch:
 		:param batDir:
 		"""
 		self.items = {} # key:username, value:filename
-		self.LoadData(batDir)
 		self.increment = 0
+		self.LoadData(batDir)
 
 	def LoadData(self,batDir):
 		"""
